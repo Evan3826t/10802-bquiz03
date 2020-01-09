@@ -3,6 +3,12 @@ $dsn = "mysql:host=localhost;charset=utf8;dbname=db113";
 $pdo = new PDO($dsn,"root","");
 
 session_start();
+$level=[
+    1=>["03C01.png","普遍級"],
+    2=>["03C02.png","輔導級"],
+    3=>["03C03.png","保護級"],
+    4=>["03C04.png","限制級"],
+];
 
 function find($table,...$arg){
     global $pdo;
@@ -22,7 +28,7 @@ function all($table,...$arg){
     global $pdo;
     $sql = "select * from $table ";
     if(!empty($arg[0])){
-        foreach ($arg as $key => $value) {
+        foreach ($arg[0] as $key => $value) {
             $tmp[] = sprintf("`%s`='%s'",$key,$value); 
         }
         $sql.="where " . implode(" && ",$tmp);
@@ -37,7 +43,7 @@ function num($table,...$arg){
     global $pdo;
     $sql = "select count(*) from $table ";
     if(!empty($arg[0])){
-        foreach ($arg as $key => $value) {
+        foreach ($arg[0] as $key => $value) {
             $tmp[] = sprintf("`%s`='%s'",$key,$value); 
         }
         $sql.="where " . implode(" && ",$tmp);
