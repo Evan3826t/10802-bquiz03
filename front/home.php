@@ -204,16 +204,7 @@
           break;
       }
     }
-    // 補充
-    $(".btns").hover(
-      function(){
-        clearInterval(slide);
-        console.log("clear");
-      },
-      function(){
-        console.log("start");
-      }
-    )
+
     </script>
     <div class="half">
     

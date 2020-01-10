@@ -10,6 +10,14 @@ $level=[
     4=>["03C04.png","限制級"],
 ];
 
+$sess=[
+    1=>"14:00-16:00",
+    2=>"16:00-18:00",
+    3=>"18:00-20:00",
+    4=>"20:00-22:00",
+    5=>"22:00-24:00"
+];
+
 function find($table,...$arg){
     global $pdo;
     $sql = "select * from $table where ";
@@ -66,7 +74,7 @@ function save($table,$data){
     }else{
         $sql = "insert into $table (`" . implode("`,`",array_keys($data)) ."`) value('" . implode("','",$data) . "')";
     }
-    echo $sql;
+    // echo $sql;
     return $pdo->exec($sql);
 }
 
