@@ -42,15 +42,28 @@ $movie = find("movie",$_GET['id'])['name'];
 $date = $_GET['date'];
 $session = $_GET['session'];
 
+// 撈出已被訂的座位
+$orders = q("select * from ord where `date`='$date' && `movie`='$movie' && `session`='$session'");
+
+$merge=[];
+foreach ($orders as $o) {
+    // 陣列合併
+    $merge = array_merge($merge , unserialize( $o['seat']));
+}
+pre($merge);
 ?>
 <div class="room">
     <?php
     for($i = 0; $i < 20; $i++){
-        echo "<div class='seat null'>";
+        if(in_array($i,$merge)){
+            echo "<div class='seat pick'>";
+        }else{
+            echo "<div class='seat null'>";
+            echo "<input type='checkbox' class='chk' value='$i'>";
+        }
         echo "<div class='ct'>".(floor($i/5)+1)."排".(($i%5)+1)."號</div>";
-        echo "<input type='checkbox' class='chk' value='$i'>";
-
         echo "</div>";
+
     }
     ?>
 </div>
@@ -73,6 +86,9 @@ $(".chk").on("click",function(){
         if(num < 4){
             num++;
             seat.push($(this).val());
+            // 下兩行可以不用做
+            $(this).parent().removeClass("null");
+            $(this).parent().addClass("pick");
         }else{
             alert("最多只能訂四張票");
             $(this).prop("checked",false);
@@ -80,6 +96,9 @@ $(".chk").on("click",function(){
     }else{
         num--;
         seat.splice(seat.indexOf($(this).val(),1));
+        // 下兩行可以不用做
+        $(this).parent().addClass("null");
+        $(this).parent().removeClass("pick");
     }
     console.log(seat);
     $(".ticket").text(num);

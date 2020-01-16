@@ -103,4 +103,8 @@ function q($sql){
 function to($path){
     header("location:".$path);
 }
+
+function pre($data){
+    echo "<pre>";print_r($data);"</pre>";
+}
 ?>
